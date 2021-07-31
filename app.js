@@ -1,18 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const userRouter = require("./Routes/userRoute");
+const indexRouter = require("./Routes/indexRoute");
 
 //Inicijalizacija express
 const app = express();
+app.use(express.json());
 
 //Dodavanje porta
 const PORT = process.env.PORT || 3000;
 
 //Povezivanje na bazu
 const dbString =
-  "mongodb+srv://admin:admin123@mvsajt.ei20o.mongodb.net/MVSajt?retryWrites=true&w=majority";
+  "mongodb+srv://milos:milos@mvsajt.ei20o.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 //Povezivanje baze
-mongoose.createConnection(
+mongoose.connect(
   dbString,
   {
     useNewUrlParser: true,
@@ -35,14 +38,6 @@ function() {
     
 }*/
 
-//HTTP GET-trazis podatke od servera
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
-//HTTP POST-upisujes podatke(u bazu)
-app.post("/post", (req, res) => {});
-
-//HTTP PUT-azuriras podatke koje vec postoje na serveru(u bazi)
-app.put("/put", (req, res) => {});
-//HTTP DELETE-brises podatke
-app.delete("/delete", (req, res) => {});
+//ROUTES
+app.use("/", indexRouter);
+app.use("/user", userRouter);
