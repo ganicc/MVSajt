@@ -18,10 +18,14 @@ const dbString =
 mongoose.connect(
   dbString,
   {
+    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-  () => console.log("Povezan na MongoDB")
+  (err) => {
+    if (err) console.log("Greska prilikom povezivanje baze, " + err);
+    console.log("Povezan na MongoDB");
+  }
 );
 
 //Listen se koristi za povezivanje porta na server
