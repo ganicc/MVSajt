@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const userRouter = require("./Routes/userRoute");
 const indexRouter = require("./Routes/indexRoute");
 const productRouter = require("./Routes/productRoute");
-
+const cookieParser = require("cookie-parser");
 
 //Inicijalizacija express
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 //Dodavanje porta
 const PORT = process.env.PORT || 3000;
