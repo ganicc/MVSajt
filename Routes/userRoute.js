@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../Models/userModel");
+const bcrypt = require("bcrypt");
 
 router.get("/svi", (req, res) => {
   User.find().then((user) => {
@@ -13,16 +14,25 @@ router.post("/register", (req, res) => {
     //const name = req.body.name;
     User.findOne({ email }).then((user) => {
       if (user)
-        return res.status(400).send("Vec postoji korisnik sa tim emailom.");
+        return res.status(400).send("Vec ste se registrovali sa tim emailom.");
+      else {
+        const newUser = User({
+          name,
+          email,
+          password,
+        });
+        //Kriptovanje sifre
+        bcrypt.genSalt(10, (err, salt) =>
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            //console.log(newUser);
+            newUser.save();
+            return res.send("Uspesno ste se registrovali.");
+          })
+        );
+      }
     });
-
-    const newUser = User({
-      name,
-      email,
-      password,
-    });
-    newUser.save();
-    res.send("Uspesno ste se registrovali.");
   } catch (err) {
     res.status(500).send("Greska na serveru.");
   }
