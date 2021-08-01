@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRouter = require("./Routes/userRoute");
 const indexRouter = require("./Routes/indexRoute");
+const productRouter = require("./Routes/productRoute");
+
 
 //Inicijalizacija express
 const app = express();
@@ -45,3 +47,4 @@ function() {
 //ROUTES
 app.use("/", indexRouter);
 app.use("/user", userRouter);
+app.use("/product", productRouter);
